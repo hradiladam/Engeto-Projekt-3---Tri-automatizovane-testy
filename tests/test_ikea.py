@@ -86,7 +86,7 @@ def test_ikea_find_nearest_store_eng(page, postal_code, expected_id, expected_te
     expect(selected_store).to_have_text(expected_text, timeout=10000)
     print(f"DEBUG: Verified selected store name in header: '{expected_text}'")
 
-# pytest tests/test_alza.py -s
-# pytest tests/test_alza.py --browser chromium -s
-# pytest tests/test_alza.py --browser firefox -s
-# pytest tests/test_alza.py --browser webkit -s
+# pytest tests/test_ikea.py -s
+# pytest tests/test_ikea.py --browser chromium -s
+# pytest tests/test_ikea.py --browser firefox -s
+# pytest tests/test_ikea.py --browser webkit -s

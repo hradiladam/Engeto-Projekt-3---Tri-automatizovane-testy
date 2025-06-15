@@ -36,7 +36,6 @@ def accept_cookies(page):
         print("\nDEBUG: Cookie button not found or failed to click")
 
 
-
 # Test that checks that user is offered AlzaPlus subscribtion when in cart going through Payment and Delivery options
 @pytest.mark.parametrize("item", [
     "Dell Alienware AW3423DW",
@@ -67,22 +66,27 @@ def test_alza_plus_offered_in_cart_eng(page, item):
     dismiss_google_popup_if_present(page) # Remove google account sign-in popup
 
     searchbox = page.get_by_role("combobox", name="What are you looking for? E.g")
+    searchbox_btn = page.get_by_test_id("button-search")
+
     searchbox.wait_for(state="visible", timeout=5000)
     searchbox.click()
     searchbox.fill(item)
-    searchbox.press("Enter")
 
-    dismiss_google_popup_if_present(page) # Remove google account sign-in popup
+    searchbox_btn.click()
     
     buy_btn = page.locator("a.btnk1").first
     buy_btn.click()
     print("DEBUG: Items added to the cart")
 
-    dismiss_google_popup_if_present(page) # Remove google account sign-in popup
+    dismiss_google_popup_if_present(page)  # Remove google account sign-in popup
 
     # Check that item was added to cart, go to the cart and check that order page opens
+    
     basket_btn = page.get_by_title("Go to Shopping Cart")
     expect(basket_btn).to_contain_text("1")
+
+    dismiss_google_popup_if_present(page)  # Remove google account sign-in popup
+
     basket_btn.click()
     expect(page).to_have_url("https://www.alza.cz/Order1.htm")
 
@@ -121,6 +125,22 @@ def test_alza_plus_offered_in_cart_eng(page, item):
     monthly_subscription = page.get_by_test_id("apSubsType2")
     expect(monthly_subscription).to_be_visible()
     print("DEBUG: Monthly subtsciption is available")
+
+    # Cleanup of the cart
+    back_btn = page.get_by_role("link", name="Back")
+    back_btn.click()
+    
+    empty_cart_label = page.get_by_text("Empty cart")
+    empty_cart_label.wait_for(state="visible", timeout=5000)
+    empty_cart_label.click()
+
+    flush_button = page.get_by_test_id("basketItems_flushButton")
+    flush_button.wait_for(state="visible", timeout=5000)
+    flush_button.click()
+
+    confirm_button = page.get_by_role("button", name="Empty cart")
+    confirm_button.wait_for(state="visible", timeout=5000)
+    confirm_button.click()
 
 # pytest tests/test_alza.py -s
 # pytest tests/test_alza.py --browser chromium -s

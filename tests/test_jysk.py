@@ -98,7 +98,7 @@ def test_size_and_firmness_filter(page, quality):
 
 
 
-# pytest tests/test_alza.py -s
-# pytest tests/test_alza.py --browser chromium -s
-# pytest tests/test_alza.py --browser firefox -s
-# pytest tests/test_alza.py --browser webkit -s
+# pytest tests/test_jysk.py -s
+# pytest tests/test_jysk.py --browser chromium -s
+# pytest tests/test_jysk.py --browser firefox -s
+# pytest tests/test_jysk.py --browser webkit -s
